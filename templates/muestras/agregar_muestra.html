@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agregar Muestra — LabSoft ADN</title>
+  <link rel="stylesheet" href="{% static 'css/agregar_muestra.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="topbar">
+    <a href="{% url 'nueva_muestra' %}" class="btn-volver">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+           stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Volver
+    </a>
+    <nav class="breadcrumb">
+      <a href="{% url 'home' %}">Inicio</a>
+      <span>›</span>
+      <a href="{% url 'nueva_muestra' %}">Muestras</a>
+      <span>›</span>
+      <span class="active">Agregar muestra</span>
+    </nav>
+  </div>
+
+  <div class="form-card">
+
+    <div class="form-card-header">
+      <div class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+             stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Agregar Nueva Muestra</h1>
+        <p>El código se asigna automáticamente según el tipo de matriz.</p>
+      </div>
+    </div>
+
+    <form method="POST" action="{% url 'agregar_muestra' %}"
+          enctype="multipart/form-data" id="form-agregar">
+      {% csrf_token %}
+
+      <!-- 1. TIPO DE MUESTRA -->
+      <div class="field-group">
+        <label for="tipo">Tipo de muestra <span class="req">*</span></label>
+        <div class="select-wrap">
+          <select id="tipo" name="tipo" required onchange="actualizarCodigo(this.value)">
+            <option value="">— Seleccionar tipo —</option>
+            <optgroup label="💧 Aguas">
+              <option value="Agua potable">Agua potable</option>
+              <option value="Agua residual">Agua residual</option>
+              <option value="Agua industrial">Agua industrial</option>
+              <option value="Agua superficial">Agua superficial</option>
+              <option value="Agua subterranea">Agua subterránea</option>
+            </optgroup>
+            <optgroup label="🍎 Alimentos">
+              <option value="Alimento crudo">Alimento crudo</option>
+              <option value="Alimento procesado">Alimento procesado</option>
+              <option value="Bebida">Bebida</option>
+              <option value="Superficie contacto">Superficie de contacto</option>
+            </optgroup>
+            <optgroup label="🌿 Ambiental">
+              <option value="Suelo">Suelo</option>
+              <option value="Sedimento">Sedimento</option>
+              <option value="Aire">Aire / Material particulado</option>
+              <option value="Lodos">Lodos / biosólidos</option>
+            </optgroup>
+          </select>
+        </div>
+        <span class="field-hint">El prefijo del código se define según la matriz seleccionada.</span>
+      </div>
+
+      <!-- 2. CÓDIGO AUTOMÁTICO (solo lectura) -->
+      <div class="field-group">
+        <label>
+          Código de muestra
+          <span class="badge-auto">Automático</span>
+        </label>
+        <div class="codigo-preview" id="codigo-preview">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+               stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <span id="codigo-texto">Seleccione el tipo de muestra</span>
+        </div>
+        <span class="field-hint">
+          Agua → <strong>A-XXXX</strong> &nbsp;|&nbsp;
+          Alimentos → <strong>AL-XXXX</strong> &nbsp;|&nbsp;
+          Ambiental → <strong>AM-XXXX</strong>
+        </span>
+      </div>
+
+      <!-- 3. NOMBRE DE LA MUESTRA -->
+      <div class="field-group">
+        <label for="nombre">Nombre de la muestra <span class="req">*</span></label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          placeholder="Ej: Agua pozo #1, Chorizo lote 3, Suelo parcela Norte"
+          required
+          autocomplete="off"
+          maxlength="100"
+        />
+        <span class="field-hint">Describa brevemente el origen o características de la muestra.</span>
+      </div>
+
+      <!-- 4. FOTO -->
+      <div class="field-group">
+        <label for="foto">Fotografía de la muestra</label>
+        <div class="file-drop" id="file-drop" onclick="document.getElementById('foto').click()">
+          <input type="file" id="foto" name="foto" accept="image/*"
+                 style="display:none" onchange="previsualizarFoto(this)" />
+          <div class="file-drop-content" id="drop-content">
+            <div class="file-drop-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
+                   stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <path d="m21 15-5-5L5 21"/>
+              </svg>
+            </div>
+            <p class="drop-texto">Haga clic para seleccionar una imagen</p>
+            <p class="drop-sub">PNG, JPG, WEBP — máximo 5 MB</p>
+          </div>
+          <div class="file-preview" id="file-preview" style="display:none">
+            <img id="preview-img" src="" alt="Vista previa" />
+            <div class="preview-info">
+              <span id="preview-nombre" class="preview-nombre"></span>
+              <button type="button" class="btn-quitar-foto" onclick="quitarFoto(event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
+                     stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path d="M18 6 6 18M6 6l12 12"/>
+                </svg>
+                Quitar
+              </button>
+            </div>
+          </div>
+        </div>
+        <span class="field-hint">Opcional. Se mostrará en el listado de muestras registradas.</span>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="form-actions">
+        <a href="{% url 'nueva_muestra' %}" class="btn-cancelar">Cancelar</a>
+        <button type="reset" class="btn-limpiar" onclick="limpiarForm()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
+               stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+          </svg>
+          Limpiar
+        </button>
+        <button type="submit" class="btn-guardar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none"
+               stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path d="M20 6 9 17l-5-5"/>
+          </svg>
+          Guardar muestra
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  /* Muestra el prefijo según el tipo seleccionado */
+  function actualizarCodigo(tipo) {
+    const el = document.getElementById('codigo-texto');
+    const preview = document.getElementById('codigo-preview');
+    const t = tipo.toLowerCase();
+
+    let prefijo = '';
+    if (t.includes('agua')) {
+      prefijo = 'A';
+    } else if (t.includes('alimento') || t.includes('bebida') || t.includes('superficie')) {
+      prefijo = 'AL';
+    } else if (t !== '') {
+      prefijo = 'AM';
+    }
+
+    if (prefijo) {
+      el.textContent = prefijo + '-XXXX  →  se asignará al guardar';
+      preview.classList.add('codigo-activo');
+    } else {
+      el.textContent = 'Seleccione el tipo de muestra';
+      preview.classList.remove('codigo-activo');
+    }
+  }
+
+  /* Vista previa de foto */
+  function previsualizarFoto(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('preview-img').src = e.target.result;
+        document.getElementById('preview-nombre').textContent = input.files[0].name;
+        document.getElementById('drop-content').style.display  = 'none';
+        document.getElementById('file-preview').style.display  = 'flex';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function quitarFoto(e) {
+    e.stopPropagation();
+    document.getElementById('foto').value = '';
+    document.getElementById('preview-img').src = '';
+    document.getElementById('drop-content').style.display = 'flex';
+    document.getElementById('file-preview').style.display = 'none';
+  }
+
+  function limpiarForm() {
+    setTimeout(() => {
+      document.getElementById('drop-content').style.display = 'flex';
+      document.getElementById('file-preview').style.display = 'none';
+      document.getElementById('codigo-texto').textContent = 'Seleccione el tipo de muestra';
+      document.getElementById('codigo-preview').classList.remove('codigo-activo');
+    }, 10);
+  }
+</script>
+
+</body>
+</html>

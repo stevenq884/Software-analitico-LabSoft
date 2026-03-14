@@ -1,0 +1,248 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LabSoft ADN – Gestión de Muestras de Laboratorio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body>
+
+  <!-- ===== HEADER / BANNER ===== -->
+  <header class="header">
+    <div class="header-overlay"></div>
+    <div class="header-grid-bg"></div>
+
+    <nav class="navbar">
+      <div class="logo-wrap">
+        <img src="logo.png" alt="LabSoft ADN" class="logo-img" />
+      </div>
+      <ul class="nav-links">
+        <li><a href="#funcionalidades">Funcionalidades</a></li>
+        <li><a href="#modulos">Módulos</a></li>
+        <li><a href="#requisitos">Requisitos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="{% url 'nueva_muestra' %}" class="btn-nueva-muestra">
+        <i class="fa-solid fa-flask-vial"></i> Muestras
+      </a>
+    </nav>
+
+    <div class="hero">
+      <div class="hero-badge">
+        <i class="fa-solid fa-atom"></i> Software Analítico Certificado
+      </div>
+      <h1 class="hero-title">
+        Gestión Inteligente<br />
+        <span class="accent">de Muestras</span> de Laboratorio
+      </h1>
+      <p class="hero-sub">
+        Plataforma especializada para el análisis y trazabilidad de muestras ambientales,
+        de aguas y alimentos. Diseñada para químicos y microbiólogos.
+      </p>
+      <div class="hero-cta">
+        <a href="{% url 'nueva_muestra' %}" class="btn-primary">
+          <i class="fa-solid fa-plus-circle"></i> Muestras Registradas
+        </a>
+        <a href="#funcionalidades" class="btn-outline">Ver funcionalidades</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">+12K</span>
+          <span class="stat-label">Muestras procesadas</span>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat">
+          <span class="stat-num">98.7%</span>
+          <span class="stat-label">Precisión analítica</span>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat">
+          <span class="stat-num">3</span>
+          <span class="stat-label">Matrices ambientales</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== REQUISITO PROFESIONAL ===== -->
+  <section class="req-banner">
+    <i class="fa-solid fa-id-badge"></i>
+    <p>
+      <strong>Acceso exclusivo:</strong> El uso de LabSoft requiere ser
+      <strong>Químico</strong> o <strong>Microbiólogo</strong> certificado.
+      El sistema valida credenciales profesionales al registrarse.
+    </p>
+  </section>
+
+  <!-- ===== FUNCIONALIDADES ===== -->
+  <main>
+    <section class="section" id="funcionalidades">
+      <div class="container">
+        <div class="section-header">
+          <span class="pill">Capacidades</span>
+          <h2>¿Qué hace LabSoft?</h2>
+          <p>Flujo completo desde la recepción de muestra hasta el informe final.</p>
+        </div>
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-icon water"><i class="fa-solid fa-droplet"></i></div>
+            <h3>Análisis de Aguas</h3>
+            <p>Control fisicoquímico y microbiológico de aguas potables, residuales e industriales. Cumplimiento normativo.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon env"><i class="fa-solid fa-wind"></i></div>
+            <h3>Muestras Ambientales</h3>
+            <p>Monitoreo de suelos, aire y sedimentos. Trazabilidad completa y cadena de custodia digital.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon food"><i class="fa-solid fa-wheat-awn"></i></div>
+            <h3>Análisis de Alimentos</h3>
+            <p>Detección de contaminantes, análisis nutricional y microbiológico con reportes automáticos.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon report"><i class="fa-solid fa-chart-line"></i></div>
+            <h3>Reportes & Dashboards</h3>
+            <p>Visualización en tiempo real, exportación a PDF/Excel e integración con equipos analíticos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MÓDULOS ===== -->
+    <section class="section section-alt" id="modulos">
+      <div class="container">
+        <div class="section-header">
+          <span class="pill">Módulos</span>
+          <h2>Sistema modular e integrado</h2>
+          <p>Cada módulo trabaja de forma independiente o en conjunto según las necesidades del laboratorio.</p>
+        </div>
+        <div class="modules-grid">
+          <div class="module-item">
+            <i class="fa-solid fa-microscope"></i>
+            <div>
+              <h4>Recepción de Muestras</h4>
+              <p>Registro, codificación y asignación automática de identificadores únicos (ID-Muestra).</p>
+            </div>
+          </div>
+          <div class="module-item">
+            <i class="fa-solid fa-vials"></i>
+            <div>
+              <h4>Cadena de Custodia</h4>
+              <p>Seguimiento digital del estado y ubicación de cada muestra en tiempo real.</p>
+            </div>
+          </div>
+          <div class="module-item">
+            <i class="fa-solid fa-file-waveform"></i>
+            <div>
+              <h4>Ingreso de Resultados</h4>
+              <p>Carga manual o importación directa desde equipos de laboratorio (LIMS integrado).</p>
+            </div>
+          </div>
+          <div class="module-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+              <h4>Control de Calidad</h4>
+              <p>Validación automática contra valores de referencia y alertas de fuera-de-rango.</p>
+            </div>
+          </div>
+          <div class="module-item">
+            <i class="fa-solid fa-file-pdf"></i>
+            <div>
+              <h4>Generación de Informes</h4>
+              <p>Informes técnicos con firma digital, membrete corporativo y cumplimiento ISO 17025.</p>
+            </div>
+          </div>
+          <div class="module-item">
+            <i class="fa-solid fa-users-gear"></i>
+            <div>
+              <h4>Gestión de Usuarios</h4>
+              <p>Roles diferenciados: Analista, Supervisor, Director. Auditoría completa de acciones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== REQUISITOS PROFESIONALES ===== -->
+    <section class="section" id="requisitos">
+      <div class="container">
+        <div class="section-header">
+          <span class="pill">Acceso</span>
+          <h2>Requisitos Profesionales</h2>
+          <p>LabSoft está diseñado exclusivamente para profesionales del área analítica.</p>
+        </div>
+        <div class="req-cards">
+          <div class="req-card quimica">
+            <div class="req-icon"><i class="fa-solid fa-flask"></i></div>
+            <h3>Químico</h3>
+            <ul>
+              <li><i class="fa-solid fa-check"></i> Título universitario en Química o afín</li>
+              <li><i class="fa-solid fa-check"></i> Registro profesional vigente</li>
+              <li><i class="fa-solid fa-check"></i> Formación en técnicas analíticas</li>
+              <li><i class="fa-solid fa-check"></i> Manejo de normas ISO / ASTM</li>
+            </ul>
+          </div>
+          <div class="req-card micro">
+            <div class="req-icon"><i class="fa-solid fa-bacterium"></i></div>
+            <h3>Microbiólogo</h3>
+            <ul>
+              <li><i class="fa-solid fa-check"></i> Título en Microbiología o Bacteriología</li>
+              <li><i class="fa-solid fa-check"></i> Registro profesional vigente</li>
+              <li><i class="fa-solid fa-check"></i> Experiencia en análisis microbiológico</li>
+              <li><i class="fa-solid fa-check"></i> Manejo de BPL y bioseguridad</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="contacto">
+    <div class="footer-inner container">
+      <div class="footer-brand">
+        <img src="logo.png" alt="LabSoft ADN" class="footer-logo" />
+        <p>Software analítico para laboratorios ambientales, de aguas y alimentos.</p>
+        <div class="social-links">
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-solid fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Módulos</h5>
+        <ul>
+          <li><a href="#">Recepción de Muestras</a></li>
+          <li><a href="#">Cadena de Custodia</a></li>
+          <li><a href="#">Control de Calidad</a></li>
+          <li><a href="#">Reportes ISO 17025</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Matrices</h5>
+        <ul>
+          <li><a href="#">Análisis de Aguas</a></li>
+          <li><a href="#">Muestras Ambientales</a></li>
+          <li><a href="#">Análisis de Alimentos</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contacto</h5>
+        <ul>
+          <li><i class="fa-solid fa-envelope"></i> info@labsoftadn.com</li>
+          <li><i class="fa-solid fa-phone"></i> +57 (1) 234 5678</li>
+          <li><i class="fa-solid fa-location-dot"></i> Bogotá, Colombia</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 LabSoft ADN. Todos los derechos reservados. | Uso exclusivo para profesionales certificados.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
