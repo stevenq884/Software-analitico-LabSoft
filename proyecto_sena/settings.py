@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'muestras.apps.MuestrasConfig',
     'rest_framework',
     'corsheaders',
+    'coreapi',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOWED_ORIGINS_REGEXES = [
     'http://localhost:8000',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
