@@ -11,3 +11,5 @@ Un sprint solo se considera cerrado si se cumplen los siguientes criterios:
       histórica (on_delete=PROTECT en claves foráneas críticas).
 - [ ] El checklist de seguridad OWASP fue revisado antes de integrar
       el código a la rama principal.
+
+Revisión de seguridad pendiente antes de integrar a main.
