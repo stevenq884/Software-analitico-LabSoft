@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
 from rest_framework import viewsets
 from .models import Muestra
 from .serializer import MuestraSerializer
@@ -8,6 +10,21 @@ class MuestraViewSet(viewsets.ModelViewSet):
     queryset = Muestra.objects.all()
     serializer_class = MuestraSerializer
 
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('nueva_muestra')
+        else:
+            # Credenciales inválidas: devolvemos 401 explícitamente
+            # para que el middleware de bloqueo por IP cuente el intento fallido.
+            return render(request, 'login.html', {'form': form}, status=401)
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
 
 
 def generar_codigo(tipo):
@@ -37,6 +54,7 @@ def generar_codigo(tipo):
         contador += 1
 
     return f"{prefijo}-{str(contador).zfill(4)}"
+
 
 def muestras(request):
     return render(request, 'muestras/nueva_muestra.html')

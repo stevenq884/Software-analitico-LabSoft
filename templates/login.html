@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar sesión — LabSoft ADN</title>
+  <link rel="stylesheet" href="{% static 'css/agregar_muestra.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="topbar">
+    <a href="{% url 'home' %}" class="btn-volver">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+           stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Volver
+    </a>
+    <nav class="breadcrumb">
+      <a href="{% url 'home' %}">Inicio</a>
+      <span>›</span>
+      <span class="active">Iniciar sesión</span>
+    </nav>
+  </div>
+
+  <div class="form-card">
+
+    <div class="form-card-header">
+      <div class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+             stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Iniciar sesión</h1>
+        <p>Acceso exclusivo para Analistas, Supervisores y Directores.</p>
+      </div>
+    </div>
+
+    <form method="POST" action="{% url 'login' %}" id="form-login">
+      {% csrf_token %}
+
+      {% if form.errors %}
+      <div class="form-errors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+             stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v4M12 16h.01"/>
+        </svg>
+        <span>Usuario o contraseña incorrectos. Verifique sus credenciales e intente de nuevo.</span>
+      </div>
+      {% endif %}
+
+      <!-- USUARIO -->
+      <div class="field-group">
+        <label for="id_username">Usuario <span class="req">*</span></label>
+        <input
+          type="text"
+          id="id_username"
+          name="username"
+          placeholder="Ingrese su usuario"
+          required
+          autocomplete="username"
+          autofocus
+        />
+      </div>
+
+      <!-- CONTRASEÑA -->
+      <div class="field-group">
+        <label for="id_password">Contraseña <span class="req">*</span></label>
+        <input
+          type="password"
+          id="id_password"
+          name="password"
+          placeholder="Ingrese su contraseña"
+          required
+          autocomplete="current-password"
+        />
+        <span class="field-hint">El acceso se bloquea temporalmente tras varios intentos fallidos.</span>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="form-actions">
+        <a href="{% url 'home' %}" class="btn-cancelar">Cancelar</a>
+        <button type="submit" class="btn-guardar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none"
+               stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <path d="M10 17l5-5-5-5M15 12H3"/>
+          </svg>
+          Ingresar
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+</body>
+</html>

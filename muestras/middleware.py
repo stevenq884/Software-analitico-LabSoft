@@ -1,23 +1,33 @@
 from django.http import HttpResponseForbidden
 from django.core.cache import cache
 
+
 class BloqueoIPMiddleware:
     """
-    Middleware en proceso (ERR-03) para prevenir ataques de fuerza bruta.
+    Middleware que previene ataques de fuerza bruta (ERR-03).
     Bloquea la IP del usuario por 15 minutos después de 5 intentos fallidos.
     """
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.path == '/login/' and request.method == 'POST':
+        if request.path == '/muestras/login/' and request.method == 'POST':
             ip = request.META.get('REMOTE_ADDR')
-            # Obtener el número de intentos desde la memoria caché
-            intentos = cache.get(f'intentos_{ip}', 0)
-            
+            clave_intentos = f'intentos_{ip}'
+            intentos = cache.get(clave_intentos, 0)
+
             if intentos >= 5:
-                # Bloqueo activo
-                return HttpResponseForbidden("Acceso denegado. IP bloqueada por 15 minutos debido a múltiples intentos fallidos.")
-            
-        response = self.get_response(request)
-        return response
+                return HttpResponseForbidden(
+                    "Acceso denegado. IP bloqueada por 15 minutos debido a múltiples intentos fallidos."
+                )
+
+            response = self.get_response(request)
+
+            if response.status_code == 401:
+                cache.set(clave_intentos, intentos + 1, timeout=900)
+            elif response.status_code in (301, 302):
+                cache.delete(clave_intentos)
+
+            return response
+
+        return self.get_response(request)
