@@ -1,0 +1,23 @@
+name: Pylint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install pylint pylint-django django djangorestframework django-cors-headers
+      - name: Run Pylint
+        run: |
+          pylint --load-plugins pylint_django --disable=missing-docstring,missing-final-newline,too-few-public-methods,too-many-ancestors,line-too-long,invalid-name,django-not-configured --exit-zero muestras
