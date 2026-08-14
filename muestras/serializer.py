@@ -5,3 +5,4 @@ class MuestraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Muestra
         fields = '__all__'
+        read_only_fields = ['codigo']

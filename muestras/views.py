@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from rest_framework import viewsets
 from .models import Muestra
 from .serializer import MuestraSerializer
-from rest_framework import viewsets
+
 
 class MuestraViewSet(viewsets.ModelViewSet):
     queryset = Muestra.objects.all()
@@ -58,13 +59,13 @@ def agregar_muestra(request):
     return render(request, 'muestras/agregar_muestra.html')
 
 
-def editar_muestra(request, id):
-    muestra = get_object_or_404(Muestra, id=id)
+def editar_muestra(request, muestra_id):
+    muestra = get_object_or_404(Muestra, id=muestra_id)
     return render(request, 'muestras/editar_muestra.html', {'muestra': muestra})
 
 
-def actualizar_muestra(request, id):
-    muestra = get_object_or_404(Muestra, id=id)
+def actualizar_muestra(request, muestra_id):
+    muestra = get_object_or_404(Muestra, id=muestra_id)
     if request.method == 'POST':
         nuevo_tipo = request.POST.get('tipo')
 
@@ -89,17 +90,17 @@ def actualizar_muestra(request, id):
             muestra.foto = request.FILES.get('foto')
         muestra.save()
         return redirect('nueva_muestra')
-    return redirect('editar_muestra', id=id)
+    return redirect('editar_muestra', muestra_id=muestra.id)
 
 
-def eliminar_muestra(request, id):
-    muestra = get_object_or_404(Muestra, id=id)
+def eliminar_muestra(request, muestra_id):
+    muestra = get_object_or_404(Muestra, id=muestra_id)
     return render(request, 'muestras/confirmar_eliminar.html', {'muestra': muestra})
 
 
-def delete_muestra(request, id):
-    muestra = get_object_or_404(Muestra, id=id)
+def delete_muestra(request, muestra_id):
+    muestra = get_object_or_404(Muestra, id=muestra_id)
     if request.method == 'POST':
         muestra.delete()
         return redirect('nueva_muestra')
-    return redirect('eliminar_muestra', id=id)
+    return redirect('eliminar_muestra', muestra_id=muestra.id)

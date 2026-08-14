@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-=c46_kq%g4^c#&i6tm7-j(6mvgy2d=-6&&(e*w2&ty0fy8rj=1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'muestras.apps.MuestrasConfig',
     'rest_framework',
     'corsheaders',
-    'coreapi',
+    #'coreapi',
 ]
 
 MIDDLEWARE = [
@@ -138,5 +138,5 @@ CORS_ALLOWED_ORIGINS_REGEXES = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    #'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
